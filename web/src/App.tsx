@@ -2,9 +2,6 @@ import "./index.css"
 import { useEffect } from "react"
 import axios from "axios"
 
-const CLIENT_ID =
-  ""
-
 function App() {
   useEffect(() => {
     const data = JSON.stringify({

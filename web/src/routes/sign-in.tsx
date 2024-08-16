@@ -52,7 +52,7 @@ export function InputForm() {
   async function onSubmit(data: SignInFormProps) {
     try {
       const response = await signIn(data.email, data.password)
-      setToken(response.token)
+      setToken(response.accessToken)
       toast("You signed in successfully.")
       await navigate({ to: "/chat" })
     } catch (error) {
