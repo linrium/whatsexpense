@@ -1,25 +1,25 @@
-import { useMessages } from "@/fetchHook/message.ts"
-import { useUserInfo } from "@/fetchHook/user.ts"
-import { Message, Transaction } from "@/type/message.ts"
-import { cn } from "@/lib/utils.ts"
-import { buttonVariants } from "@/components/ui/button.tsx"
-import { Badge } from "@/components/ui/badge.tsx"
-import { useEffect, useRef } from "react"
-import { ScrollArea } from "@/components/ui/scroll-area.tsx"
-import { Separator } from "@/components/ui/separator.tsx"
+import { useMessages } from "@/fetchHook/message.ts";
+import { useUserInfo } from "@/fetchHook/user.ts";
+import { Message, Transaction } from "@/type/message.ts";
+import { cn } from "@/lib/utils.ts";
+import { buttonVariants } from "@/components/ui/button.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { useEffect, useRef } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area.tsx";
+import { Separator } from "@/components/ui/separator.tsx";
 
 export const ChatSection = () => {
-  const { data: messages, loading } = useMessages()
-  const { data: user } = useUserInfo()
-  const listRef = useRef<HTMLDivElement>(null)
+  const { data: messages, loading } = useMessages();
+  const { data: user } = useUserInfo();
+  const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (listRef.current) {
-      listRef.current.scrollIntoView(false)
+      listRef.current.scrollIntoView(false);
     }
-  }, [messages?.length])
+  }, [messages?.length]);
 
-  if (loading) return null
+  if (loading) return null;
 
   return (
     <div className="flex flex-col size-full bg-gray-50">
@@ -35,8 +35,8 @@ export const ChatSection = () => {
         </div>
       </ScrollArea>
     </div>
-  )
-}
+  );
+};
 
 const MyMessage = ({ userId, ...props }: Message & { userId: string }) => {
   return props.fromId === userId ? (
@@ -65,8 +65,8 @@ const MyMessage = ({ userId, ...props }: Message & { userId: string }) => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 const BotMessage = ({
   type,
@@ -99,21 +99,21 @@ const BotMessage = ({
         <div>{toCurrency(amount, "VND")}</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 const toCurrency = (amount: string | number, currency = "USD") => {
-  let number = amount
+  let number = amount;
 
   if (typeof number === "string") {
-    number = parseFloat(number)
-    if (isNaN(number)) return amount
+    number = parseFloat(number);
+    if (isNaN(number)) return amount;
   }
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency,
-  })
+  });
 
-  return formatter.format(number)
-}
+  return formatter.format(number);
+};

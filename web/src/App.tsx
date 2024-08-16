@@ -1,13 +1,13 @@
-import "./index.css"
-import { useEffect } from "react"
-import axios from "axios"
+import "./index.css";
+import { useEffect } from "react";
+import axios from "axios";
 
 function App() {
   useEffect(() => {
     const data = JSON.stringify({
       email: "dieutrieuphieu96@gmail.com",
       password: "Phieu.123",
-    })
+    });
 
     const config = {
       method: "post",
@@ -17,22 +17,19 @@ function App() {
         "Content-Type": "application/json",
       },
       data: data,
-    }
+    };
 
     axios
       .request(config)
       .then((response) => {
-        console.log(JSON.stringify(response.data))
+        console.log(JSON.stringify(response.data));
       })
       .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+        console.log(error);
+      });
+  }, []);
 
-  return (
-    <div>
-    </div>
-  )
+  return <div></div>;
 }
 
-export default App
+export default App;

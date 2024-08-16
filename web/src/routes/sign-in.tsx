@@ -1,7 +1,7 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { z } from "zod"
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { z } from "zod";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -9,17 +9,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { toast } from "sonner"
-import { useZodForm } from "@/hooks/useZodForm.ts"
-import { signIn } from "@/service"
-import { getToken, setToken } from "@/helper/token.ts"
-import { useLayoutEffect } from "react"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { useZodForm } from "@/hooks/useZodForm.ts";
+import { signIn } from "@/service";
+import { getToken, setToken } from "@/helper/token.ts";
+import { useLayoutEffect } from "react";
 
 export const Route = createFileRoute("/sign-in")({
   component: () => <InputForm />,
-})
+});
 
 const schema = z.object({
   email: z.string().email({
@@ -28,36 +28,36 @@ const schema = z.object({
   password: z.string().min(6, {
     message: "Password must be at least 6 characters.",
   }),
-})
+});
 
-type SignInFormProps = z.infer<typeof schema>
+type SignInFormProps = z.infer<typeof schema>;
 
 export function InputForm() {
-  const navigate = useNavigate({ from: "/sign-in" })
+  const navigate = useNavigate({ from: "/sign-in" });
   const form = useZodForm({
     schema: schema,
     defaultValues: {
       email: "",
       password: "",
     },
-  })
+  });
 
   useLayoutEffect(() => {
-    const token = getToken()
+    const token = getToken();
     if (token) {
-      navigate({ to: "/chat" })
+      navigate({ to: "/chat" });
     }
-  }, [])
+  }, []);
 
   async function onSubmit(data: SignInFormProps) {
     try {
-      const response = await signIn(data.email, data.password)
-      setToken(response.accessToken)
-      toast("You signed in successfully.")
-      await navigate({ to: "/chat" })
+      const response = await signIn(data.email, data.password);
+      setToken(response.accessToken);
+      toast("You signed in successfully.");
+      await navigate({ to: "/chat" });
     } catch (error) {
-      console.log(error)
-      toast("Something went wrong.")
+      console.log(error);
+      toast("Something went wrong.");
     }
   }
 
@@ -98,5 +98,5 @@ export function InputForm() {
         </Form>
       </div>
     </div>
-  )
+  );
 }

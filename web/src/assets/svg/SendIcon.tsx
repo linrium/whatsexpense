@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import { SVGProps } from "react";
 
 export const SendIcon = (props: SVGProps<SVGSVGElement>) => {
   return (
@@ -32,5 +32,5 @@ export const SendIcon = (props: SVGProps<SVGSVGElement>) => {
         ></path>
       </g>
     </svg>
-  )
-}
+  );
+};

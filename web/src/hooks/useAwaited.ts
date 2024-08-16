@@ -1,61 +1,61 @@
-import { AxiosError } from "axios"
-import { useCallback, useEffect, useState } from "react"
+import { AxiosError } from "axios";
+import { useCallback, useEffect, useState } from "react";
 
 export const useAwaited = <T, P = any>(
   func: (props?: P) => Promise<T>,
   dependencies?: P,
 ) => {
-  const [data, setData] = useState<T | null>(null)
-  const [error, setError] = useState<AxiosError | unknown>()
-  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<AxiosError | unknown>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async (params?: P) => {
       try {
-        const result = await func(params)
-        setData(result)
+        const result = await func(params);
+        setData(result);
       } catch (err: AxiosError | unknown) {
-        setError(err)
+        setError(err);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData(dependencies)
-  }, [dependencies])
+    fetchData(dependencies);
+  }, [dependencies]);
 
-  return { data, error, loading }
-}
+  return { data, error, loading };
+};
 
 export const useMutation = <T, P = any>(
   func: (props: P) => Promise<T>,
   options?: {
-    onSuccess?: (data: T) => void
-    onError?: (err: AxiosError | unknown) => void
+    onSuccess?: (data: T) => void;
+    onError?: (err: AxiosError | unknown) => void;
   },
 ) => {
-  const [error, setError] = useState<AxiosError | unknown>()
-  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<AxiosError | unknown>();
+  const [loading, setLoading] = useState(false);
 
   const asyncMutate = useCallback(async (params: P) => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const data = await func(params)
-      options?.onSuccess?.(data)
+      const data = await func(params);
+      options?.onSuccess?.(data);
     } catch (err: AxiosError | unknown) {
-      options?.onError?.(err)
-      setError(err)
+      options?.onError?.(err);
+      setError(err);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [])
+  }, []);
 
   const mutate = useCallback(
     (params: P) => {
-      asyncMutate(params)
+      asyncMutate(params);
     },
     [asyncMutate],
-  )
+  );
 
-  return { mutate, asyncMutate, error, loading }
-}
+  return { mutate, asyncMutate, error, loading };
+};

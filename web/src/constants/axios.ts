@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
-import { ENV } from "@/constants/env.ts"
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { ENV } from "@/constants/env.ts";
 import {
   getRefreshToken,
   getToken,
@@ -7,12 +7,12 @@ import {
   removeToken,
   setRefreshToken,
   setToken,
-} from "@/helper/token.ts"
+} from "@/helper/token.ts";
 
-const redirectToSignIn = () => (document.location.href = "/sign-in")
+const redirectToSignIn = () => (document.location.href = "/sign-in");
 
 export interface Config extends AxiosRequestConfig {
-  baseUrl?: string
+  baseUrl?: string;
 }
 
 const createAxiosInstant = (config?: Config) => {
@@ -24,13 +24,13 @@ const createAxiosInstant = (config?: Config) => {
     // timeout: 15000, // 15s
     ...config,
     baseURL: config?.baseUrl,
-  })
+  });
 
   instance.interceptors.request.use(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     (config) => {
-      const token = getToken()
+      const token = getToken();
 
       return {
         ...config,
@@ -39,81 +39,81 @@ const createAxiosInstant = (config?: Config) => {
           ...config.headers,
           Authorization: `Bearer ${token}`,
         },
-      }
+      };
     },
     (error) => {
-      console.log(error)
-      return Promise.reject(error)
+      console.log(error);
+      return Promise.reject(error);
     },
-  )
+  );
 
   instance.interceptors.response.use(
     (res) => res,
     async (err) => {
-      const originalConfig = err.config!
+      const originalConfig = err.config!;
 
       if (err.response) {
         // Access Token was expired
         if (err.response.status === 401) {
           try {
-            const refreshToken = getRefreshToken()
+            const refreshToken = getRefreshToken();
             if (!refreshToken) {
-              throw new Error("no token")
+              throw new Error("no token");
             }
 
             const result = await instance.get<{
-              token: string
-              refresh_token: string
+              token: string;
+              refresh_token: string;
             }>("/auth/renew", {
               params: {
                 refresh_token: refreshToken,
               },
-            })
+            });
 
             if (!result.data) {
-              throw new Error("no token")
+              throw new Error("no token");
             }
 
-            setToken(result.data.token)
-            setRefreshToken(result.data.refresh_token)
+            setToken(result.data.token);
+            setRefreshToken(result.data.refresh_token);
 
-            return instance(originalConfig)
+            return instance(originalConfig);
           } catch (e) {
-            removeRefreshToken()
-            removeToken()
-            redirectToSignIn()
+            removeRefreshToken();
+            removeToken();
+            redirectToSignIn();
           }
         }
       }
 
-      throw err
+      throw err;
     },
-  )
+  );
 
-  return instance
-}
+  return instance;
+};
 
 export const requestInstant =
   (config?: Config) =>
   <T>(options: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
-    const client = createAxiosInstant(config)
+    const client = createAxiosInstant(config);
 
     try {
-      return client(options)
+      return client(options);
     } catch (error) {
-      return Promise.reject(error)
+      return Promise.reject(error);
     }
-  }
+  };
 
-const request = requestInstant({ baseUrl: ENV.baseUrl })
+const request = requestInstant({ baseUrl: ENV.baseUrl });
 
 const get = <T = any>(url: string, options?: AxiosRequestConfig) => {
   return request<T>({
     url: url,
     method: "GET",
     ...options,
-  })
-}
+  });
+};
 
 const post = <T = any>(
   url: string,
@@ -125,8 +125,8 @@ const post = <T = any>(
     url,
     data,
     method: "POST",
-  })
-}
+  });
+};
 
 const put = <T = any>(url: string, data: any, options?: AxiosRequestConfig) => {
   return request<T>({
@@ -134,8 +134,8 @@ const put = <T = any>(url: string, data: any, options?: AxiosRequestConfig) => {
     url,
     data,
     method: "PUT",
-  })
-}
+  });
+};
 
 const patch = <T = any>(
   url: string,
@@ -147,8 +147,8 @@ const patch = <T = any>(
     url,
     data,
     method: "PATCH",
-  })
-}
+  });
+};
 
 const remove = <T = any>(
   url: string,
@@ -160,8 +160,8 @@ const remove = <T = any>(
     url,
     data,
     method: "DELETE",
-  })
-}
+  });
+};
 
 export const baseApi = {
   get,
@@ -169,4 +169,4 @@ export const baseApi = {
   post,
   remove,
   patch,
-}
+};

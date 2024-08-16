@@ -1,5 +1,6 @@
-import { createRootRoute, Outlet } from "@tanstack/react-router"
-import { Suspense, lazy } from "react"
+import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+
 const TanStackRouterDevtools =
   process.env.NODE_ENV === "production"
     ? () => null // Render nothing in production
@@ -10,7 +11,7 @@ const TanStackRouterDevtools =
           // For Embedded Mode
           // default: res.TanStackRouterDevtoolsPanel
         })),
-      )
+      );
 
 export const Route = createRootRoute({
   component: () => (
@@ -21,4 +22,4 @@ export const Route = createRootRoute({
       </Suspense>
     </>
   ),
-})
+});
