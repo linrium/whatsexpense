@@ -1,6 +1,7 @@
 use anyhow::anyhow;
 use axum::extract::{Query, State};
 use axum::{Extension, Json};
+use tracing::info;
 use utoipa::OpenApi;
 
 use crate::api::auth::types::Provider;
@@ -77,6 +78,7 @@ pub async fn sign_in(
             password: body.password,
         })
         .await?;
+    info!("sign in with password");
 
     Ok(Json(resp.into()))
 }

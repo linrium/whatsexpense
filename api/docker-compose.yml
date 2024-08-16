@@ -38,14 +38,21 @@ services:
       - "mongo3_data:/data/db"
       - "mongo3_config:/data/configdb"
 
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file:
-      - .env
+  redis:
+    image: redis:7.4
     ports:
-      - "3000:3000"
+      - "6379:6379"
+    volumes:
+      - "redis_data:/data"
+
+#  api:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    env_file:
+#      - .env
+#    ports:
+#      - "3000:3000"
 
 volumes:
   mongo1_data:
@@ -54,3 +61,4 @@ volumes:
   mongo1_config:
   mongo2_config:
   mongo3_config:
+  redis_data:

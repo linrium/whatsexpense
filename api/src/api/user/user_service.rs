@@ -74,7 +74,7 @@ impl UserServiceExt for UserService {
             return Err(UserError::InvalidCurrencyCode.into());
         }
 
-        if data.regions.len() > 1 {
+        if data.regions.len() > 3 {
             return Err(UserError::RegionExceedsLimit.into());
         }
 
