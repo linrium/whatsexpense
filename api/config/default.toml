@@ -1,0 +1,21 @@
+[server]
+host = "0.0.0.0"
+port = 3000
+addr = "http://localhost:3000"
+
+[currencyapi]
+url = "https://api.currencyapi.com/v3/latest"
+
+[auth.jwt]
+expires_in_secs = 86400
+issuer = "whatsexpense"
+# 1 day
+access_token = { secret_key = "secret", expires_in_secs = 86400 }
+# 7 days
+refresh_token = { secret_key = "secret", expires_in_secs = 604_800 }
+
+[auth.apple]
+app_bundle_ids = "com.whatsexpense.app,host.exp.Exponent"
+
+[redis]
+url = "redis://localhost:6379"

@@ -1,0 +1,6 @@
+/target
+.idea
+
+!/config/default.toml
+.env
+.DS_Store
