@@ -1,14 +1,14 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod"
 import {
   FieldValues,
   useForm,
   UseFormProps,
   UseFormReturn,
-} from "react-hook-form";
-import { z } from "zod";
+} from "react-hook-form"
+import { z } from "zod"
 
 interface Props {
-  schema: z.Schema;
+  schema: z.Schema
 }
 
 export const useZodForm = <
@@ -22,4 +22,4 @@ export const useZodForm = <
   TFieldValues,
   TContext,
   TTransformedValues
-> => useForm({ resolver: zodResolver(schema), ...props });
+> => useForm({ resolver: zodResolver(schema), ...props })

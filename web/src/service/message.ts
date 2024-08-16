@@ -1,13 +1,13 @@
-import { baseApi } from "@/constants/axios.ts";
+import { baseApi } from "@/constants/axios.ts"
 
 export const getMessages = async () => {
-  const response = await baseApi.get("/api/v1/messages");
+  const response = await baseApi.get("/api/v1/messages")
 
-  return response.data;
-};
+  return response.data
+}
 
 export const sendMessages = async (content: string) => {
-  const response = await baseApi.post("/api/v1/messages", { content });
+  const response = await baseApi.post("/api/v1/messages", { content })
 
-  return response.data;
-};
+  return response.data
+}
